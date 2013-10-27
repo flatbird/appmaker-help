@@ -1,0 +1,73 @@
+body {
+	font-family: 'Source Sans Pro', arial;
+	background: url('/assets/notebook.png');
+	color: #4d4d4d;
+}
+
+h1 {
+	font-size: 3rem;
+	text-align: center;
+}
+
+.goto-appmaker {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+.list {
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.profile {
+	margin-left: 15px;
+	margin-bottom: 15px;
+}
+
+.profile div {
+	margin-bottom: 5px;
+}
+
+.name {
+	font-size: 1.2rem;
+	font-weight: bold;
+	text-transform: capitalize;
+}
+
+.description {
+}
+
+.friends {
+	text-transform: capitalize;
+}
+
+.thumbnail {
+	background: white;
+	width: 90%;
+	height: 200px;
+    text-align: center;
+    margin: 0 15px 15px 0;
+    padding: 10px;
+}
+
+.thumbnail img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+@media all and (min-width: 768px) {
+	h1 {
+		font-size: 4rem;
+		margin-bottom: 30px;
+	}
+	.thumbnail {
+		position: relative;
+		float: left;
+		width: 40%;
+	}
+
+	.component {
+		clear: left;
+	}
+}

@@ -1,4 +1,4 @@
-app-maker-help
+Appmaker Help
 ==============
 
-Generates a help document of Appmaker components.
+Generates help document for Appmaker components.
