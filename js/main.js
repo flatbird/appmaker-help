@@ -55,7 +55,7 @@
 		console.log(component.name);
 		div.append(composeThumbnail(component));
 		div.append(composeProfile(component));
-		div.appendTo('#list');
+    div.appendTo('#list');
 	};
 
 	// Fake objects for Ceci script
@@ -107,13 +107,15 @@
 	var composeFriends = function(component) {
 		var div = $('<div>').addClass('friends');
 		div.text('Friends: ');
+    var terms = $('<div>').addClass('term');
+    div.append(terms);
 		var friendText = (component.friends[0] ? component.friends.text() : '');
 		var first = true;
 		friendText.split(',').forEach(function (friend) {
 			if (first) first = false;
-			else div.append(', ');
+			else terms.append(', ');
 			var a = $('<a>').attr('href', '#' + friend).text(componentName(friend));
-			div.append(a);
+			terms.append(a);
 		});
 		return div;
 	};
@@ -121,6 +123,8 @@
 	var composeListeners = function(component) {
 		var divListeners = $('<div>').addClass('listeners');
 		divListeners.text('Listeners: ');
+    var terms = $('<div>').addClass('term');
+    divListeners.append(terms);
 
 		var listeners = component.properties.listeners;
 		if (listeners) {
@@ -130,12 +134,12 @@
 
 				console.log('listener: ' + name);
 				if (first) first = false;
-				else divListeners.append(', ');
+				else terms.append(', ');
         // split by inflector.js
         var splitted = name.underscore().titleize();
 				var a = $('<a>').addClass('listener').attr('href', '/').text(splitted);
 				a.attr('name', dialogID);
-				divListeners.append(a);
+				terms.append(a);
 				// make a source dialog
         var sourceDialog = $('<div>').addClass('listener-source').attr('id', dialogID);
 				var style = { title: name };
@@ -160,13 +164,16 @@
 			});
 		}
 		var div = $('<div>').addClass('broadcasts');
-    div.text('Broadcasts: ' + broadcasts.join(', '));
+    // div.text('Broadcasts: ' + broadcasts.join(', '));
+    div.text('Broadcasts: ');
+    div.append($('<div>').addClass('term').text(broadcasts.join(', ')));
 		return div;
 	};
 
 	var composeSource = function(component) {
 		var id = 'source-' + component.name;
 		var a = $('<a>').addClass('view-source').attr('href', '/').text('View Source');
+    a.addClass('term');
 		a.attr('name', id);
 
     var sourceDialog = $('<div>').addClass('source').attr('id', id);
