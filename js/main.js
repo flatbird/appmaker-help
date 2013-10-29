@@ -52,7 +52,7 @@
       return;
     }
 		var div = $('<div>').addClass('component').attr('id', component.name);
-		console.log(component.name);
+		// console.log(component.name);
 		div.append(composeThumbnail(component));
 		div.append(composeProfile(component));
     div.appendTo('#list');
@@ -132,7 +132,7 @@
 			for (var name in listeners) {
 				var dialogID = component.name + '-listener-' + name;
 
-				console.log('listener: ' + name);
+				// console.log('listener: ' + name);
 				if (first) first = false;
 				else terms.append(', ');
         // split by inflector.js
@@ -157,7 +157,7 @@
 		var broadcasts = [];
 		if (component.properties.broadcasts) {
 			component.properties.broadcasts.forEach(function (broadcast) {
-				console.log('broadcast: ' + broadcast);
+				// console.log('broadcast: ' + broadcast);
         // split by inflector.js
         var splitted = broadcast.underscore().titleize();
 				broadcasts.push(splitted);

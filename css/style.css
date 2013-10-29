@@ -31,11 +31,11 @@ pre {
 }
 
 .profile div {
-	margin-bottom: 5px;
+	margin-bottom: 8px;
 }
 
 .name {
-	font-size: 1.2rem;
+	font-size: 1.4rem;
 	font-weight: bold;
 	text-transform: capitalize;
 }
