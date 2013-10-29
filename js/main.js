@@ -4,7 +4,7 @@
 		autoOpen: false,
 		modal: true,
 		position: { my: 'top', at: 'top', of: window },
-		width: '80%',
+		width: '90%',
 		show: { effect: "fade", duration: 300 },
 		hide: { effect: "fade", duration: 300 }
 	};
