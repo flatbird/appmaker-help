@@ -9,6 +9,11 @@ h1 {
 	text-align: center;
 }
 
+pre {
+	font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+	font-size: .8rem;
+}
+
 .goto-appmaker {
 	text-align: center;
 	margin-bottom: 30px;
