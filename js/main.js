@@ -5,18 +5,12 @@
 		modal: true,
 		position: { my: 'top', at: 'top', of: window },
 		width: '80%',
-		show: {
-			effect: "fade",
-			duration: 500
-		},
-		hide: {
-			effect: "fade",
-			duration: 500
-		}
+		show: { effect: "fade", duration: 300 },
+		hide: { effect: "fade", duration: 300 }
 	};
 
 	$(document).ready(function() {
-	 	var ceciLinks = document.querySelectorAll('link[rel=component][type="text/ceci"]');
+    var ceciLinks = document.querySelectorAll('link[rel=component][type="text/ceci"]');
 
     if (ceciLinks.length === 0) {
       return processComponents(false, callOnComplete);
@@ -38,23 +32,24 @@
           xhr.overrideMimeType('text/plain');
           xhr.send(null);
         };
-	    Array.prototype.forEach.call(ceciLinks, loadComponents);    	
+      Array.prototype.forEach.call(ceciLinks, loadComponents);
 	});
 
 	var processComponents = function(fragments) {
 		if (fragments) {
-		  var elements = fragments.querySelectorAll('element');
-		  elements = Array.prototype.slice.call(elements);
-		  elements.forEach(handleElement);
+      var elements = fragments.querySelectorAll('element');
+      elements = Array.prototype.slice.call(elements);
+      elements.forEach(handleElement);
 		}
+    prettyPrint(); // google-code-prettify
 		$('.view-source, .listener').click(viewSource);
 	};
 
 	var handleElement = function(element) {
 		var component = getComponent(element);
     if (!component) {
-    	console.log('Failed to eval script for ' + $(element).attr('name'));
-    	return;
+      console.log('Failed to eval script for ' + $(element).attr('name'));
+      return;
     }
 		var div = $('<div>').addClass('component').attr('id', component.name);
 		console.log(component.name);
@@ -65,14 +60,14 @@
 
 	// Fake objects for Ceci script
 	var gProperties;
-	function Ceci(element, properties) { gProperties = properties; };
-	function require(depends, cb) { cb(); };
+	function Ceci(element, properties) { gProperties = properties; }
+	function require(depends, cb) { cb(); }
 
 	var getComponent = function(element) {
 		var elm = $(element);
 		var component = {
-	    name: elm.attr('name'),
-  		script: elm.find('script[type="text/ceci"]'),
+      name: elm.attr('name'),
+      script: elm.find('script[type="text/ceci"]'),
       description: elm.find('description'),
       thumbnail: elm.find('thumbnail'),
       friends: elm.find('friends'),
@@ -82,17 +77,17 @@
     gProperties = null;
     eval('function callback() {};' + component.script.html());
     if (!gProperties) {
-    	return null
+      return null;
     }
-   	component.properties = gProperties;
+    component.properties = gProperties;
     gProperties = null;
     return component;
-	}
+  };
 
 	var composeThumbnail = function(component) {
 		var thumb = $('<div>').addClass('thumbnail').html(component.thumbnail.html());
 		return thumb;
-	}
+	};
 
 	var composeProfile = function(component) {
 		var name = $('<div>').addClass('name').text(componentName(component.name));
@@ -107,7 +102,7 @@
 		div.append(composeSource(component));
 
 		return div;
-	}
+	};
 
 	var composeFriends = function(component) {
 		var div = $('<div>').addClass('friends');
@@ -121,7 +116,7 @@
 			div.append(a);
 		});
 		return div;
-	}
+	};
 
 	var composeListeners = function(component) {
 		var divListeners = $('<div>').addClass('listeners');
@@ -136,55 +131,60 @@
 				console.log('listener: ' + name);
 				if (first) first = false;
 				else divListeners.append(', ');
-				var a = $('<a>').addClass('listener').attr('href', '/').text(name);
+        // split by inflector.js
+        var splitted = name.underscore().titleize();
+				var a = $('<a>').addClass('listener').attr('href', '/').text(splitted);
 				a.attr('name', dialogID);
 				divListeners.append(a);
 				// make a source dialog
-	    	var sourceDialog = $('<div>').addClass('listener-source').attr('id', dialogID);
+        var sourceDialog = $('<div>').addClass('listener-source').attr('id', dialogID);
 				var style = { title: name };
 				$.extend(true, style, dialogStyle);
 				sourceDialog.dialog(style);
-	    	var src = listeners[name].toString();
-				var pre = $('<pre>').text(src);
+        var src = listeners[name].toString();
+				var pre = $('<pre>').addClass('prettyprint').text(src);
 				sourceDialog.append(pre);
 			}
 		}
 		return divListeners;
-	}
+	};
 
 	var composeBroadcasts = function(component) {
 		var broadcasts = [];
 		if (component.properties.broadcasts) {
 			component.properties.broadcasts.forEach(function (broadcast) {
 				console.log('broadcast: ' + broadcast);
-				broadcasts.push(broadcast);
-				// Inflector.titleize(Inflector.underscore(attributeName));
+        // split by inflector.js
+        var splitted = broadcast.underscore().titleize();
+				broadcasts.push(splitted);
 			});
 		}
 		var div = $('<div>').addClass('broadcasts');
-		div.text('Broadcasts: ' + broadcasts.join(', '));	
+    div.text('Broadcasts: ' + broadcasts.join(', '));
 		return div;
-	}
+	};
 
 	var composeSource = function(component) {
 		var id = 'source-' + component.name;
 		var a = $('<a>').addClass('view-source').attr('href', '/').text('View Source');
 		a.attr('name', id);
 
-	  var sourceDialog = $('<div>').addClass('source').attr('id', id);
+    var sourceDialog = $('<div>').addClass('source').attr('id', id);
 		var style = { title: component.name };
 		$.extend(true, style, dialogStyle);
 		sourceDialog.dialog(style);
 
-		var pre = $('<pre>').text(component.script.html());
+    var src = component.script.html();
+    if (src.charAt(0) === '"') src = src.slice(1, src.length-1);
+    var pre = $('<pre>').addClass('prettyprint').text(src);
 		sourceDialog.append(pre);
 
 		return a;
-	}
+	};
 
 	var componentName = function(name) {
 		return name.split('-').slice(1).join(' ');
-	}
+	};
 
 	var viewSource = function(evt) {
 		var target = $(evt.target);
@@ -192,5 +192,5 @@
 		$('#' + id).dialog('open');
 		return false;
 	};
-	
+
 }).call(this);
