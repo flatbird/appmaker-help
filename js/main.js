@@ -75,7 +75,11 @@
 		};
 
     gProperties = null;
-    eval('function callback() {};' + component.script.html());
+    try {
+      eval('function callback() {};' + component.script.html());
+    } catch (e) {
+      console.log('eval ' + component.name + ' error: ' + (e.message ? e.message : e));
+    }
     if (!gProperties) {
       return null;
     }
