@@ -62,11 +62,13 @@
 	var gProperties;
 	function Ceci(element, properties) { gProperties = properties; }
 	function require(depends, cb) { cb(); }
+  function AudioContext() { return {}; }
 
 	var getComponent = function(element) {
 		var elm = $(element);
 		var component = {
       name: elm.attr('name'),
+      html: elm.html(),
       script: elm.find('script[type="text/ceci"]'),
       description: elm.find('description'),
       thumbnail: elm.find('thumbnail'),
@@ -185,8 +187,7 @@
 		$.extend(true, style, dialogStyle);
 		sourceDialog.dialog(style);
 
-    var src = component.script.html();
-    if (src.charAt(0) === '"') src = src.slice(1, src.length-1);
+    var src = component.html;
     var pre = $('<pre>').addClass('prettyprint').text(src);
 		sourceDialog.append(pre);
 
